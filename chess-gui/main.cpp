@@ -75,6 +75,7 @@ void move(chess::Board &board) {
   auto afterTime = std::chrono::high_resolution_clock::now();
   // apply move
   auto move = chess::uci::uciToMove(board, moveStr);
+  std::cout << move << endl;
   board.makeMove(move);
 
   // update stats
