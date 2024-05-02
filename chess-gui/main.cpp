@@ -76,7 +76,7 @@ void move(chess::Board &board) {
   // apply move
   auto move = chess::uci::uciToMove(board, moveStr);
   std::cout << move << endl;
-  board.makeMove(move);
+  board.makeMove(move); //breakpoint here for debugging
 
   // update stats
   timeSpentOnMoves += afterTime - beforeTime;

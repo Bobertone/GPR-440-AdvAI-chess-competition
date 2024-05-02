@@ -19,9 +19,9 @@ std::string ChessSimulator::Move(std::string fen) {
     
     chess::Board board(fen);
 
-    /*if (board.sideToMove() == chess::Color::WHITE)
+    if (board.sideToMove() == chess::Color::WHITE)
     {
-        std::optional<MinMaxNode> mv = MinMax(board, 3);
+        std::optional<MinMaxNode> mv = MinMax(board, 5, board.sideToMove());
         chess::Movelist moves;
         std::cout << board.getFen() << std::endl;
         chess::movegen::legalmoves(moves, board);
@@ -30,7 +30,7 @@ std::string ChessSimulator::Move(std::string fen) {
         return chess::uci::moveToUci(mv->move);
     }
     else
-    {*/
+    {
         chess::Movelist moves;
         std::cout << board.getFen() << std::endl;
         chess::movegen::legalmoves(moves, board);
@@ -76,5 +76,5 @@ std::string ChessSimulator::Move(std::string fen) {
             }
         }
         return chess::uci::moveToUci(bestMove);
-    //}
+    }
 }
