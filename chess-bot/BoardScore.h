@@ -5,7 +5,7 @@
 class BoardScore {
 public:
     // Receive a board and then evaluate the piece score heuristic
-    static int Evaluate(chess::Board& board);
+    static int Evaluate(const chess::Board& board);
 };
 
 

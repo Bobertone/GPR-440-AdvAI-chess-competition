@@ -1,5 +1,6 @@
 #include "MinMax.h"
-
+#include <random>
+#include <algorithm>
 
 // recursive MinMax function. it will explode the call stack!!! be careful and change it to an iterative version
 std::optional<MinMaxNode> MinMax(const chess::Board& board, int maxDepth, bool whiteMove) {
@@ -15,7 +16,7 @@ std::optional<MinMaxNode> MinMax(const chess::Board& board, int maxDepth, bool w
     else if (maxDepth == 1) {
         chess::Movelist moves;
         chess::movegen::legalmoves(moves, board);
-
+        std::shuffle(moves.begin(), moves.end(), std::mt19937(std::random_device()()));
         //TODO: deal with endgame
 
         //return null if there is no move available
@@ -67,6 +68,7 @@ std::optional<MinMaxNode> MinMax(const chess::Board& board, int maxDepth, bool w
         //recursive step
         chess::Movelist moves;
         chess::movegen::legalmoves(moves, board);
+        std::shuffle(moves.begin(), moves.end(), std::mt19937(std::random_device()()));
 
         if (moves.empty())
             return std::nullopt;
@@ -76,9 +78,13 @@ std::optional<MinMaxNode> MinMax(const chess::Board& board, int maxDepth, bool w
         for (const auto& move : moves) {
             chess::Board newBoard = board;
             newBoard.makeMove(move);
-            auto child = MinMax(newBoard, maxDepth - 1, !whiteMove);
-            if (child.has_value()) {
-                children.push_back(child.value());
+            if(newBoard.isGameOver().second == chess::GameResult::NONE)
+            {
+                auto child = MinMax(newBoard, maxDepth - 1, !whiteMove);
+                if (child.has_value()) {
+                    child.value().move = move;
+                    children.push_back(child.value());
+                }
             }
         }
         // return the best move
